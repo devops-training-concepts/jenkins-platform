@@ -14,11 +14,10 @@ jobs:
 unclassified:
   globalLibraries:
     libraries:
-      - name: "shared-lib"
+      - name: "jenkins-shared-lib"
         defaultVersion: "main"
         retriever:
           modernSCM:
             scm:
               git:
                 remote: "https://github.com/devops-training-concepts/jenkins-shared-lib.git"
-                credentialsId: "git-creds"
