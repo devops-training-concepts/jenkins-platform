@@ -1,0 +1,9 @@
+unclassified:
+  scriptApproval:
+    approvedSignatures:
+      - "method javaposse.jobdsl.dsl.DslFactory pipelineJob java.lang.String"
+      - "method javaposse.jobdsl.dsl.helpers.workflow.WorkflowDefinitionContext
+        cpsScm groovy.lang.Closure"
+      - "method javaposse.jobdsl.dsl.helpers.scm.ScmContext git
+        groovy.lang.Closure"
+      - "new javaposse.jobdsl.dsl.helpers.scm.GitContext"

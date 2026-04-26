@@ -1,0 +1,23 @@
+jobs:
+  - script: >
+      job('seed-job') {
+        description('Auto-created seed job from JCasC')
+
+        scm {
+          git {
+            remote {
+              url('https://github.com/devops-training-concepts/jenkins-platform.git')
+              credentials('git-creds')
+            }
+            branch('*/main')
+          }
+        }
+
+        steps {
+          jobDsl {
+            targets('dsl/seed.groovy')
+            removedJobAction('DELETE')
+            removedViewAction('DELETE')
+          }
+        }
+      }
