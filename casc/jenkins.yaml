@@ -1,0 +1,24 @@
+jenkins:
+  systemMessage: "Jenkins Platform via Code"
+
+jobs:
+  - script: >
+      job('seed-job') {
+        steps {
+          dsl {
+            external('dsl/seed.groovy')
+          }
+        }
+      }
+
+unclassified:
+  globalLibraries:
+    libraries:
+      - name: "shared-lib"
+        defaultVersion: "main"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/devops-training-concepts/jenkins-shared-lib.git"
+                credentialsId: "git-creds"
