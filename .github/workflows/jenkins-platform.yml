@@ -1,0 +1,75 @@
+name: Jenkins Platform CI/CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # -----------------------------
+      # Docker login
+      # -----------------------------
+      - name: Login to DockerHub
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      # -----------------------------
+      # Build image
+      # -----------------------------
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkins-platform:lts .
+
+      # -----------------------------
+      # Push image
+      # -----------------------------
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkins-platform:lts
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo (for docker-compose)
+        uses: actions/checkout@v4
+
+      # -----------------------------
+      # Inject secrets as environment variables
+      # -----------------------------
+      - name: Export environment variables
+        run: |
+          echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" >> $GITHUB_ENV
+          echo "DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}" >> $GITHUB_ENV
+          echo "JENKINS_ADMIN_PASSWORD=${{ secrets.JENKINS_ADMIN_PASSWORD }}" >> $GITHUB_ENV
+          echo "GIT_PASSWORD=${{ secrets.GIT_PASSWORD }}" >> $GITHUB_ENV
+
+      # -----------------------------
+      # Stop old Jenkins (if running)
+      # -----------------------------
+      - name: Stop existing Jenkins
+        run: |
+          docker compose down || true
+
+      # -----------------------------
+      # Start Jenkins using docker compose
+      # -----------------------------
+      - name: Deploy Jenkins
+        run: |
+          docker compose up -d --build
+
+      # -----------------------------
+      # Health check
+      # -----------------------------
+      - name: Verify Jenkins
+        run: |
+          sleep 40
+          curl -f http://localhost:8080 || exit 1

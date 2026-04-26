@@ -1,6 +1,6 @@
 services:
   jenkins:
-    image: balajivb25/jenkins-platform:lts
+    image: ${DOCKERHUB_USERNAME}/jenkins-platform:lts
     build:
       context: ..
       dockerfile: docker/Dockerfile

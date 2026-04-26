@@ -1,4 +1,4 @@
-# Core
+# ================= CORE =================
 configuration-as-code
 job-dsl
 workflow-aggregator
@@ -6,13 +6,13 @@ git
 credentials
 pipeline-github-lib
 
-# Security
+# ================= SECURITY =================
 script-security
 matrix-auth
 role-strategy
 authorize-project
 
-# Pipeline Engine
+# ================= PIPELINE ENGINE =================
 workflow-job
 workflow-cps
 workflow-cps-global-lib
@@ -20,35 +20,30 @@ workflow-step-api
 pipeline-model-definition
 pipeline-model-extensions
 
-# DSL Enhancements
-job-dsl-plugins
-
-# Docker / Cloud
+# ================= DOCKER =================
 docker-workflow
 docker-plugin
-cloudbees-docker-build-and-publish
 
-# Deployment
+# ================= CLOUD / DEPLOYMENT =================
 ssh-agent
 publish-over-ssh
-ansible
 aws-credentials
 pipeline-aws
 
-# Backup
+# ================= BACKUP =================
 thinBackup
 
-# Monitoring
-dashboard-view
-build-monitor-plugin
-timestamper
+# ================= MONITORING =================
 cloudbees-folder
+timestamper
+build-monitor-plugin
+dashboard-view
 
-# Notifications
+# ================= NOTIFICATIONS =================
 email-ext
 slack
 
-# Quality
+# ================= QUALITY =================
 warnings-ng
 build-timeout
 sonar
